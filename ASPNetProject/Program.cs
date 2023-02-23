@@ -1,11 +1,15 @@
 using ASPNetProject.Data;
 using Microsoft.EntityFrameworkCore;
+using SmartBreadcrumbs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<Context>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddDbContext<Context>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+
 
 var app = builder.Build();
 

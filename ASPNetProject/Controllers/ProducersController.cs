@@ -15,7 +15,7 @@ namespace ASPNetProject.Controllers
         public async Task<IActionResult> Index()
         {
             var producers = await _db.Producers.ToListAsync();
-            return View();
+            return View(producers);
         }
 
 

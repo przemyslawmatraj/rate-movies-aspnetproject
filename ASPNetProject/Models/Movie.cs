@@ -1,4 +1,4 @@
-﻿using ASPNetProject.Data.Enums;
+﻿ using ASPNetProject.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

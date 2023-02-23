@@ -1,14 +1,14 @@
-﻿@model List<Actor>
+@model List<Producer>
 @{
-  ViewData["Title"] = "Lista Aktorów";
+  ViewData["Title"] = "Lista Productentów";
 }
 
-<h1 class="text-4xl mb-5">Lista aktorów</h1>
+<h1 class="text-4xl mb-5">Lista producentów</h1>
 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md">
   <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
     <thead class="bg-gray-50">
       <tr>
-        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Aktor</th>
+        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Producent</th>
         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Biogram</th>
         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Akcje</th>
       </tr>
@@ -28,7 +28,7 @@
           </div>
           <div class="text-sm">
             <div class="font-medium text-gray-700"> @Html.DisplayFor(modelItem => item.FullName)</div>
-            <div class="text-gray-400">Aktor</div>
+            <div class="text-gray-400">Producent</div>
           </div>
         </th>
         <td class="px-6 py-4"> @Html.DisplayFor(modelItem => item.Bio)</td>

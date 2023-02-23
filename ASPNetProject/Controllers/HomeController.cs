@@ -1,6 +1,7 @@
 ﻿using ASPNetProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using SmartBreadcrumbs.Attributes;
 
 namespace ASPNetProject.Controllers
 {
@@ -12,12 +13,12 @@ namespace ASPNetProject.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
         }
-
+        
         public IActionResult Privacy()
         {
             return View();

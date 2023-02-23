@@ -15,7 +15,7 @@ namespace ASPNetProject.Controllers
         public async Task<IActionResult> Index()
         {
             var cinemas = await _db.Cinemas.ToListAsync();
-            return View();
+            return View(cinemas);
         }
     }
 }
