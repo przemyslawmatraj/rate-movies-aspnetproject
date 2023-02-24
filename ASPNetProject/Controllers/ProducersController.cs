@@ -65,14 +65,14 @@ namespace ASPNetProject.Controllers
             {
                 return View(producer);
             }
+
             if (id == producer.Id)
             {
                 await _db.UpdateAsync(id, producer);
                 return RedirectToAction(nameof(Index));
             }
-            View(producer);
-            await _db.UpdateAsync(id, producer);
-            return RedirectToAction(nameof(Index));
+            
+            return View(producer);
         }
         
         public async Task<IActionResult> Delete(int id)

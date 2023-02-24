@@ -1,0 +1,74 @@
+@model Cinema
+
+@{
+  ViewData["Title"] = "Nowe kino";
+}
+
+<h1 class="text-4xl mb-5">Nowe kino</h1>
+<div class="mx-auto w-full max-w-[550px]">
+  <form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-red-500 mb-5"></div>
+    <div class="mb-5">
+      <label
+        asp-for="Name"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Nazwa
+      </label>
+      <input
+        type="text"
+        asp-for="Name"
+        id="name"
+        placeholder="Nazwa kina..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="Name"
+            class="text-red-500 text-sm"></span>
+      
+    </div>
+    <div class="mb-5">
+      <label
+        asp-for="Logo"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Zdjęcie kina
+      </label>
+      <input
+        type="text"
+        asp-for="Logo"
+        id="image"
+        placeholder="Wprowadź URL..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="Logo" class="text-red-500 text-sm"></span>
+      <img id="previewImage" class="mx-auto"/>
+    </div>
+    <div class="mb-5">
+      <label
+        asp-for="Description"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Biogram
+      </label>
+      <input
+        type="text"
+        asp-for="Description"
+        id="bio"
+        placeholder="Wprowadź biogram..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+    </div>
+    <div>
+      <input type="submit" value="Zapisz"
+             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"/>
+      <a class="rounded-md py-3 px-8 text-base border-1 border-[#6A64F1]  font-regular text-black outline-none"
+         asp-action="Index">Anuluj</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  const imageInput = document.getElementById('image');
+  const previewImage = document.getElementById('previewImage');
+  imageInput.addEventListener('input', (e) => {
+    previewImage.src = e.target.value;
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    previewImage.src = imageInput.value;
+  });
+</script>
