@@ -1,0 +1,75 @@
+@model Actor
+
+@{
+  ViewData["Title"] = "Szczegóły aktora " + Model.FullName;
+}
+
+<h1 class="text-4xl mb-5">Szczegóły aktora @Model.FullName</h1>
+<div class="mx-auto w-full max-w-[550px]">
+  <form asp-action="Create">
+    <div class="mb-5">
+      <label
+        asp-for="FullName"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Imię i nazwisko
+      </label>
+      <input
+        type="text"
+        asp-for="FullName"
+        id="name"
+        readonly
+        placeholder="Imię i nazwisko..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="FullName"
+            class="text-red-500 text-sm"></span>
+      
+    </div>
+    <div class="mb-5">
+      <label
+        asp-for="ProfileImage"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Zdjęcie aktora
+      </label>
+      <input
+        type="text"
+        asp-for="ProfileImage"
+        id="image"
+            readonly
+        placeholder="Wprowadź URL..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="ProfileImage" class="text-red-500 text-sm"></span>
+      <img id="previewImage" class="mx-auto"/>
+    </div>
+    <div class="mb-5">
+      <label
+        asp-for="Bio"
+        class="mb-3 block text-base font-medium text-[#07074D]">
+        Biogram
+      </label>
+      <input
+        type="text"
+        asp-for="Bio"
+            readonly
+        id="bio"
+        placeholder="Wprowadź biogram..."
+        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+      <span asp-validation-for="Bio" class="text-red-500 text-sm"></span>
+    </div>
+    <div>
+      <a asp-action="Edit" asp-route-id="@Model.Id"
+             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Edytuj</a>
+      <a class="rounded-md py-3 px-8 text-base border-1 border-[#6A64F1]  font-regular text-black outline-none"
+         asp-action="Index">Powrót</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  const imageInput = document.getElementById('image');
+  const previewImage = document.getElementById('previewImage');
+
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    previewImage.src = imageInput.value;
+  });
+</script>

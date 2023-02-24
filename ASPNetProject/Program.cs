@@ -1,4 +1,5 @@
 using ASPNetProject.Data;
+using ASPNetProject.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using SmartBreadcrumbs.Extensions;
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Context>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddScoped<IActorService, ActorsServices>();
+builder.Services.AddScoped<IProducersService, ProducersService>();
 
 
 
