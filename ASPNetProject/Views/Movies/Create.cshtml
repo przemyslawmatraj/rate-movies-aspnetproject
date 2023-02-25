@@ -1,0 +1,112 @@
+@model NewMovieVM
+@using ASPNetProject.Data.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Dodaj nowy film";
+}
+
+<h1 class="text-4xl mb-5">Dodaj nowy film</h1>
+<form class="mx-auto w-full max-w-[550px]" asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+    <div class="mb-5">
+        <label asp-for="Title" class="mb-3 block text-base font-medium text-[#07074D]">
+            Tytuł
+        </label>
+        <input type="text" asp-for="Title" id="title" placeholder="Wprowadź tytuł..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+        <span asp-validation-for="Title" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="CinemaId" class="mb-3 block text-base font-medium text-[#07074D]">
+            Kino
+        </label>
+        <select asp-for="CinemaId" asp-items="ViewBag.CinemasId" id="cinema" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+            <option value="">Wybierz kino</option>
+           
+        </select>
+        <span asp-validation-for="CinemaId" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="StartDate" class="mb-3 block text-base font-medium text-[#07074D]">
+            Data rozpoczęcia
+        </label>
+        <input type="date" asp-for="StartDate" id="startDate" placeholder="Wprowadź datę rozpoczęcia..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+        <span asp-validation-for="StartDate" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="EndDate" class="mb-3 block text-base font-medium text-[#07074D]">
+            Data zakończenia
+        </label>
+        <input type="date" asp-for="EndDate" id="endDate" placeholder="Wprowadź datę zakończenia..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+        <span asp-validation-for="EndDate" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="ProducerId" class="mb-3 block text-base font-medium text-[#07074D]">
+            Producent
+        </label>
+        <select asp-for="ProducerId"  asp-items="ViewBag.ProducersId" id="producer" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+            <option value="">Wybierz producenta</option>
+          
+        </select>
+        <span asp-validation-for="ProducerId" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="MovieCategory" class="mb-3 block text-base font-medium text-[#07074D]">
+            Kategoria
+        </label>
+        <select asp-for="MovieCategory" asp-items="Html.GetEnumSelectList<MovieCategory>()" id="category" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+            <option value="">Wybierz kategorię</option>
+         
+        </select>
+        <span asp-validation-for="MovieCategory" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="Price" class="mb-3 block text-base font-medium text-[#07074D]">
+            Cena
+        </label>
+        <input type="number" asp-for="Price" id="price" placeholder="Wprowadź cenę..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+        <span asp-validation-for="Price" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="ActorsIds" class="mb-3 block text-base font-medium text-[#07074D]">
+            Aktorzy
+        </label>
+        <select asp-for="ActorsIds" asp-items="ViewBag.ActorsId" id="actors" multiple class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+
+        </select>
+        <span asp-validation-for="ActorsIds" class="text-red-500 text-sm"></span>
+    </div>
+
+
+    <div class="mb-5">
+        <label asp-for="Image" class="mb-3 block text-base font-medium text-[#07074D]">
+            Adres obrazka
+        </label>
+        <input type="text" asp-for="Image" id="imageUrl" placeholder="Wprowadź adres obrazka..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+        <img id="imgPreview" class="w-1/2" />
+        <span asp-validation-for="Image" class="text-red-500 text-sm"></span>
+    </div>
+
+    <div class="mb-5">
+        <label asp-for="Description" class="mb-3 block text-base font-medium text-[#07074D]">
+            Opis
+        </label>
+        <textarea asp-for="Description" id="description" placeholder="Wprowadź opis..." class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"></textarea>
+        <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+    </div>
+    
+    <div class="flex justify-end">
+        <input type="submit" class="bg-[#6A64F1] text-white font-medium py-3 px-6 rounded-md text-base" value="Dodaj film" />
+        <a asp-action="Index" class="bg-[#F9FAFB] text-[#6B7280] font-medium py-3 px-6 rounded-md text-base ml-3">Anuluj</a>
+    </div>
+</form>
+
+
+@section Scripts
+{
+    <script>
+        document.getElementById("imageUrl").addEventListener("input", function () {
+            document.getElementById("imgPreview").src = this.value;
+        });
+    </script>
+}
+

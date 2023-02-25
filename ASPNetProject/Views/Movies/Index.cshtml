@@ -5,20 +5,28 @@
 }
 
 
+<div class="
+flex justify-between items-center
+">
 <h1 class="text-4xl mb-5">Lista filmów</h1>
-<div class="flex items-center justify-center">
-  <div class="w-full rounded-lg bg-gray-200 p-4">
-    <div class="flex">
-      <div class="flex w-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white p-3">
-        <svg viewBox="0 0 20 20" aria-hidden="true" class="pointer-events-none absolute w-5 fill-gray-500 transition">
-          <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
-        </svg>
-      </div>
-      <input type="text" class="w-full bg-white pl-2 text-base font-semibold outline-0" placeholder="" id="">
-      <input type="button" value="Wyszukaj" class="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors">
-    </div>
-  </div>
+
+<a asp-action="Create" class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Dodaj film</a>
 </div>
+<form asp-action="Filter" asp-controller="Movies" class="flex items-center justify-center">
+    <div class="w-full rounded-lg bg-gray-200 p-4">
+        <div class="flex">
+            <div class="flex w-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white p-3">
+                <svg viewBox="0 0 20 20" aria-hidden="true" class="pointer-events-none absolute w-5 fill-gray-500 transition">
+                    <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
+                </svg>
+            </div>
+            
+                <input type="text" name="prompt" class="w-full bg-white pl-2 text-base font-semibold outline-0" placeholder="" id="">
+                <input type="submit" value="Wyszukaj" class="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors">
+            
+        </div>
+    </div>
+</form>
 <div class="flex flex-col items-center min-h-screen bg-center bg-cover">
     @foreach (var item in Model)
     {
@@ -28,7 +36,7 @@
                     <div class="flex-none sm:flex">
                         <div class=" relative h-32 w-32   sm:mb-0 mb-3">
                             <img src="@item.Image" alt="@item.Title" class=" w-32 h-32 object-cover rounded-2xl">
-                            <a href="#"
+                            <a asp-action="Edit" asp-route-id="@item.Id"
                                class="absolute -right-2 bottom-2   -ml-3  text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                      class="h-4 w-4">
@@ -42,7 +50,9 @@
                             <div class="flex items-center justify-between sm:mt-2">
                                 <div class="flex items-center">
                                     <div class="flex flex-col">
-                                        <div class="mr-3 w-full flex-none text-lg  leading-none"><span class="pr-3 font-bold ">@Html.DisplayFor(modelItem => item.Title)</span><span class="pl-3 border-l border-gray-200  max-h-0">@Html.DisplayFor(modelItem => item.Cinema.Name)</span></div>
+                                        <div class="mr-3 w-full flex-none text-lg  leading-none">
+                                            <span class="pr-3 font-bold ">@Html.DisplayFor(modelItem => item.Title)</span>
+                                        </div>
 
                                         <div class="flex-auto text-gray-500 my-4">
                                             @Html.DisplayFor(modelItem => item.Description)
@@ -115,8 +125,18 @@
                                     </div>
                                 }
 
-                                
-                                <button class="flex-no-shrink bg-green-400 hover:bg-green-500 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-green-300 hover:border-green-500 text-white rounded-full transition ease-in duration-300">Dodaj recenzję</button>
+
+                                <div>
+
+                                    <a class="rounded-md py-3 px-8 text-base border-1 border-[#6A64F1]  font-regular text-black outline-none"
+                                       asp-action="Details" asp-route-id="@item.Id">
+                                        Szczegóły
+                                    </a>
+                                    <a asp-action="Reviews" asp-route-id="@item.Id"
+                                       class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
+                                        Recenzuj
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

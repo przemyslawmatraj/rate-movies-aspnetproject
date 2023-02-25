@@ -12,6 +12,7 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddScoped<IActorService, ActorsServices>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasServices>();
+builder.Services.AddScoped<IMoviesService, MoviesService>();
 
 
 
