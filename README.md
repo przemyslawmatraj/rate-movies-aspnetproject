@@ -4,6 +4,7 @@
 * [General info](#general-info)
 * [Installation and setup instruction](#installation-and-setup-instruction)
 * [Technologies](#technologies)
+* [Default Accounts](#default-accounts)
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
@@ -35,3 +36,16 @@ If you log in as administrator you have access to edit movies and you can see th
 - Entity Framework Core
 - sqlite
 - tailwind
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+## Default accounts
+
+- Admin credidentials:
+  * Login: `admin@admin.pl`
+  * Password: `Dev123!wsei`
+  
+- Test user credidentails:
+  * Login: `user@user.pl`
+  * Password: `Dev123!wsei`
+  
