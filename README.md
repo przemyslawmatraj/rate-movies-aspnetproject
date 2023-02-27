@@ -14,8 +14,8 @@
 
 
 This project was based on the ASP.NET course I completed during my studies. The project presents an movie review platform.
-After logging in, the application allows you to add reviews to movies and create, delete and update data about actors, producers and cinemas.
-If you log in as administrator you have access to edit movies and you can see the list of users on the platform.
+After logging in, the application allows you to add reviews to movies
+If you log in as administrator you have access to create, delete and update data about actors, producers, movies and cinemas and you can see the list of users on the platform.
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
