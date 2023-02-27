@@ -24,7 +24,8 @@ using System.ComponentModel.DataAnnotations.Schema;
         public MovieCategory MovieCategory { get; set; }
 
         [Required(ErrorMessage = "Cinema is required")]
-        public List<int> ActorsIds { get; set; }
+        public List<int>? ActorsIds { get; set; }
+        public List<int>? ReviewsIds { get; set; }
         
         [Required(ErrorMessage = "Cinema is required")]
         public int CinemaId { get; set; }

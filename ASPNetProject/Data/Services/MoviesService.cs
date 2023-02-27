@@ -17,9 +17,22 @@ public class MoviesService: EntityBaseRepository<Movie>, IMoviesService
         var result = await _context.Movies
             .Include(c => c.Cinema)
             .Include(p => p.Producer)
+            .Include(r => r.Reviews)
             .Include(am => am.ActorMovies)
             .ThenInclude(a => a.Actor)
             .FirstOrDefaultAsync(n => n.Id == id);
+        return result;
+    }
+    
+    public  async Task<IEnumerable<Movie>> GetAllMovieAsync()
+    {
+        var result = await _context.Movies
+            .Include(c => c.Cinema)
+            .Include(p => p.Producer)
+            .Include(r => r.Reviews)
+            .Include(am => am.ActorMovies)
+            .ThenInclude(a => a.Actor)
+            .ToListAsync();
         return result;
     }
 
@@ -100,6 +113,20 @@ public class MoviesService: EntityBaseRepository<Movie>, IMoviesService
             };
             await _context.ActorsMovies.AddAsync(actorMovie);
         }
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddReviewAsync(Review review)
+    {
+        var newReview = new Review()
+        {
+            MovieId = review.MovieId,
+            UserId = review.UserId,
+            Rating = review.Rating,
+            Text = review.Text,
+            UserName = review.UserName
+        };
+        await _context.Reviews.AddAsync(newReview);
         await _context.SaveChangesAsync();
     }
 }

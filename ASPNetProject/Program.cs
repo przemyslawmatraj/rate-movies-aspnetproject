@@ -1,5 +1,8 @@
 using ASPNetProject.Data;
 using ASPNetProject.Data.Services;
+using ASPNetProject.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartBreadcrumbs.Extensions;
 
@@ -13,6 +16,18 @@ builder.Services.AddScoped<IActorService, ActorsServices>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasServices>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
+
+// Authentication and Authorization
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<Context>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
+
+
 
 
 
@@ -31,6 +46,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 
@@ -39,5 +55,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 DbInitializer.Seed(app);
+DbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
 app.Run();

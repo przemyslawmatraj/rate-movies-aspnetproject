@@ -1,11 +1,14 @@
 ﻿using ASPNetProject.Data;
 using ASPNetProject.Data.Services;
+using ASPNetProject.Data.Static;
 using ASPNetProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ActorsController : Controller
     {
         private readonly IActorService _service;
@@ -14,7 +17,8 @@ namespace ASPNetProject.Controllers
         {
             _service = service;
         }
-
+        
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var actors = await _service.GetAllAsync();
@@ -40,7 +44,7 @@ namespace ASPNetProject.Controllers
             return RedirectToAction(nameof(Index));
         }
         
-        
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
          

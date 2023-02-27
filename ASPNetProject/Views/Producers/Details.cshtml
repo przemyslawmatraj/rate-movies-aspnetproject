@@ -56,8 +56,12 @@
       <span asp-validation-for="Bio" class="text-red-500 text-sm"></span>
     </div>
     <div>
-      <a asp-action="Edit" asp-route-id="@Model.Id"
-             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Edytuj</a>
+      @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+      {
+        <a asp-action="Edit" asp-route-id="@Model.Id"
+           class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Edytuj</a>
+      }
+      
       <a class="rounded-md py-3 px-8 text-base border-1 border-[#6A64F1]  font-regular text-black outline-none"
          asp-action="Index">Powrót</a>
     </div>

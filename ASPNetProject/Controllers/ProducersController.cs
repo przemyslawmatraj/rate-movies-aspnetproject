@@ -1,11 +1,14 @@
 ﻿using ASPNetProject.Data;
 using ASPNetProject.Data.Services;
+using ASPNetProject.Data.Static;
 using ASPNetProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ProducersController : Controller
     {
         private readonly IProducersService _db;
@@ -14,12 +17,14 @@ namespace ASPNetProject.Controllers
         {
             _db = db;
         }
+        
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var producers = await _db.GetAllAsync();
             return View(producers);
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var producer = await _db.GetByIdAsync(id);

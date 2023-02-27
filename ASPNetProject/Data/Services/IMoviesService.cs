@@ -11,4 +11,9 @@ public interface IMoviesService: IEntityBaseRepository<Movie>
     Task AddMovieAsync(NewMovieVM movie);
     
     Task UpdateMovieAsync(NewMovieVM movie);
+    
+    Task AddReviewAsync(Review review);
+    
+    Task<IEnumerable<Movie>> GetAllMovieAsync();
+    
 }

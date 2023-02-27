@@ -1,4 +1,6 @@
-﻿using ASPNetProject.Models;
+﻿using ASPNetProject.Data.Static;
+using ASPNetProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Data
@@ -239,7 +241,68 @@ namespace ASPNetProject.Data
                     });
                     context.SaveChanges();
                 }
+                
+                if (!context.Reviews.Any())
+                {
+                    context.AddRange(new List<Review>() {
+                    });
+                    context.SaveChanges();
+                }
              }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                
+                
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                }
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                }
+                
+                
+                
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                
+                var adminUser = await userManager.FindByNameAsync("admin@admin.pl");
+                if (adminUser == null)
+                {
+                    var admin = new ApplicationUser()
+                    {
+                        FullName = "Admin user",
+                        UserName = "Admin",
+                        Email = "admin@admin.pl",
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(admin, "Dev123!wsei");
+                    await userManager.AddToRoleAsync(admin, UserRoles.Admin);
+                }
+                
+                
+                
+              
+                
+                var userUser = await userManager.FindByNameAsync("user@user.pl");
+                if (userUser == null)
+                {
+                    var user = new ApplicationUser()
+                    {
+                        FullName = "Jan User",
+                        UserName = "AppUser",
+                        Email = "user@user.pl",
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(user, "Dev123!wsei");
+                    await userManager.AddToRoleAsync(user, UserRoles.User);
+                }
+            }
         }
     }
 }

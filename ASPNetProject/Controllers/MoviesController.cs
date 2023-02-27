@@ -1,12 +1,18 @@
-﻿using ASPNetProject.Data;
+﻿using System.Security.Claims;
+using ASPNetProject.Data;
 using ASPNetProject.Data.Services;
+using ASPNetProject.Data.Static;
 using ASPNetProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _db;
@@ -15,15 +21,18 @@ namespace ASPNetProject.Controllers
         {
             _db = db;
         }
+        
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var movies = await _db.GetAllAsync();
+            var movies = await _db.GetAllMovieAsync();
             return View(movies);
         }
         
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string prompt)
         {
-            var movies = await _db.GetAllAsync();
+            var movies = await _db.GetAllMovieAsync();
             if (!string.IsNullOrEmpty(prompt))
             {
                 var filteredMovies = movies.Where(m => m.Title.ToLower().Contains(prompt.ToLower()));
@@ -32,12 +41,14 @@ namespace ASPNetProject.Controllers
             return View("Index", movies);
         }
         
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var movie = await _db.GetMovieByIdAsync(id);
             return View(movie);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create()
         {
             var dropdownData = await _db.GetMovieDropdownAsync();
@@ -49,6 +60,7 @@ namespace ASPNetProject.Controllers
             return View();
         }
         
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
@@ -64,6 +76,7 @@ namespace ASPNetProject.Controllers
             return RedirectToAction(nameof(Index));
         }
         
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var movie = await _db.GetMovieByIdAsync(id);
@@ -85,7 +98,8 @@ namespace ASPNetProject.Controllers
                 MovieCategory = movie.MovieCategory,
                 CinemaId = movie.CinemaId,
                 ProducerId = movie.ProducerId,
-                ActorsIds = movie.ActorMovies.Select(n => n.ActorId).ToList()
+                ActorsIds = movie.ActorMovies.Select(n => n.ActorId).ToList(),
+                ReviewsIds = movie.Reviews.Select(r => r.Id).ToList()
             };
             
             var dropdownData = await _db.GetMovieDropdownAsync();
@@ -98,6 +112,7 @@ namespace ASPNetProject.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id, NewMovieVM movie)
         {
             if (id != movie.Id)
@@ -114,6 +129,46 @@ namespace ASPNetProject.Controllers
             }
             await _db.UpdateMovieAsync(movie);
             return RedirectToAction(nameof(Index));
+        }
+        
+        
+        public async Task<IActionResult> NewReview(int id)
+        {
+            var movie = await _db.GetMovieByIdAsync(id);
+            ViewBag.Movie = movie;
+            int averageRating = 0;
+            if (movie.Reviews.Count > 0 && movie.Reviews != null) averageRating =  (int) movie.Reviews.Average(r => r.Rating);
+            ViewBag.AverageRating = averageRating;
+            return View();
+        }
+        public async Task<IActionResult> CreateReview(int id, NewReviewVM review)
+        {
+            var movie = await _db.GetMovieByIdAsync(id);
+            
+            if(movie == null)
+            {
+                return View("NotFound");
+            }
+            ViewBag.Movie = movie;
+            int averageRating = 0;
+            if (movie.Reviews.Count > 0 && movie.Reviews != null) averageRating = (int) movie.Reviews.Average(r => r.Rating);
+            ViewBag.AverageRating = averageRating;
+            if (!ModelState.IsValid)
+            {
+                return View("NewReview", review);
+            }
+            
+            
+            var newReview = new Review()
+            {
+                Rating = review.Rating,
+                Text = review.Text,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                UserName =  User.FindFirstValue(ClaimTypes.Name),
+                MovieId = movie.Id
+            };
+            await _db.AddReviewAsync(newReview);
+            return RedirectToAction(nameof(Details), new {id = id});
         }
     }
 }

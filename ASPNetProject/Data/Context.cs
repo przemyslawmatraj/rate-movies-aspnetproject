@@ -1,9 +1,10 @@
 ﻿using ASPNetProject.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Data
 {
-    public class Context: DbContext
+    public class Context: IdentityDbContext<ApplicationUser>
     {
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -33,6 +34,10 @@ namespace ASPNetProject.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Producer> Producers { get; set; }
-        
+
+
+
+        public DbSet<Review> Reviews { get; set; }
+
     }
 }

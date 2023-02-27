@@ -1,11 +1,14 @@
 ﻿using ASPNetProject.Data;
 using ASPNetProject.Data.Services;
+using ASPNetProject.Data.Static;
 using ASPNetProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASPNetProject.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class CinemasController : Controller
     {
         private readonly ICinemasService _db;
@@ -13,12 +16,13 @@ namespace ASPNetProject.Controllers
         {
             _db = db;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var cinemas = await _db.GetAllAsync();
             return View(cinemas);
         }
-        
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var cinema = await _db.GetByIdAsync(id);

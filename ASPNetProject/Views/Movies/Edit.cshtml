@@ -5,7 +5,7 @@
     ViewData["Title"] = "Edytuj film" + Model.Title;
 }
 
-<h1 class="text-4xl mb-5">Edytuj film</h1>
+<h1 class="text-4xl mb-5">Edytuj film @Model.Title</h1>
 <form class="mx-auto w-full max-w-[550px]" asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
     <div class="mb-5">

@@ -19,6 +19,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 
         public List<ActorMovie> ActorMovies { get; set; }
+        public List<Review>? Reviews { get; set; }
         
         public int CinemaId { get; set; }
         [ForeignKey("CinemaId")]
@@ -29,6 +30,7 @@ using System.ComponentModel.DataAnnotations.Schema;
         public Producer Producer { get; set; }
 
 
+        
 
     }
 }
